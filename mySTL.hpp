@@ -2,7 +2,7 @@
 #pragma once
 namespace MyStl
 {
-    template<typename type>
+    template <typename type>
     void printVector1D(std::vector<type>);
 
     class BitArray
@@ -22,14 +22,11 @@ namespace MyStl
         Bits bits;
     };
 
-    class Node;
-    typedef std::vector<Node> Graph;
-    Graph createGraph(uint32_t nodeCount);
-    void resetGraph(Graph &graph);
-
+    class Graph;
     class Node
     {
-        friend void resetGraph(Graph &graph);
+        friend Graph;
+
     public:
         typedef unsigned int NodeId;
         struct Neighbour
@@ -43,19 +40,19 @@ namespace MyStl
         void connect(Node &node, Neighbour::Weight weight);
         /**
          * Disconnects `this` from `node`
-         * @return 
+         * @return
          * - `false` on failure due to no existing connection
          * of `this` with `node`
          * - `true` otherwise
-        */
+         */
         bool disconnect(Node &node);
         /**
          * Disconnects the `node` which `this` visited last time
-         * @return 
+         * @return
          * - `false` on failure due to no existing connection
          * of `this` with `node`
          * - `true` otherwise
-        */
+         */
         bool disconnectLastVisit(Graph &graph);
         /**
          * @return
@@ -86,6 +83,22 @@ namespace MyStl
         std::vector<Neighbour> neighbours;
         NodeId visitorNodeId = UNDEFINED_NODE;
         uint32_t neighbourIndexToVisit = 0;
+    };
+
+    class Graph
+    {
+        std::vector<Node> graph;
+
+    public:
+        Graph(uint32_t nodeCount);
+        Node &operator[](Node::NodeId nodeId);
+        const Node &operator[](Node::NodeId nodeId) const;
+        void reset();
+        void priortiseNeighbourByHeighWeight();
+        void priortiseNeighbourByLowWeight();
+        void priortiseNeighbourByHeighNodeId();
+        void priortiseNeighbourByLowNodeId();
+        void inputEdges(uint32_t numberOfEdges);
     };
 }
 #include "others.cpp"

@@ -1,18 +1,5 @@
 #include "mySTL.hpp"
 using namespace MyStl;
-Graph MyStl::createGraph(uint32_t nodeCount)
-{
-    Graph graph;
-    graph.emplace_back(Node(nodeCount));
-    for (uint32_t nodeNo = 1; nodeNo <= nodeCount; nodeNo++)
-        graph.emplace_back(Node(nodeNo));
-    return graph;
-}
-void MyStl::resetGraph(Graph &graph)
-{
-    for (Node &node : graph)
-        node.reset();
-}
 Node::Node(NodeId nodeId) : nodeId(nodeId)
 {
     if (nodeId == Node::UNDEFINED_NODE)
@@ -130,4 +117,65 @@ inline void Node::priortiseNeighbourByLowNodeId()
 {
     std::sort(this->neighbours.begin(), this->neighbours.end(), [](Neighbour neighbour1, Neighbour neighbour2)
               { return neighbour1.nodeId < neighbour2.nodeId; });
+}
+
+Graph::Graph(uint32_t nodeCount)
+{
+    this->graph.emplace_back(Node(nodeCount));
+    for (uint32_t nodeNo = 1; nodeNo <= nodeCount; nodeNo++)
+        this->graph.emplace_back(Node(nodeNo));
+}
+void Graph::reset()
+{
+    for (Node &node : this->graph)
+        node.reset();
+}
+Node &Graph::operator[](Node::NodeId nodeId)
+{
+    return graph[nodeId];
+}
+const Node &Graph::operator[](Node::NodeId nodeId) const
+{
+    return graph[nodeId];
+}
+void Graph::priortiseNeighbourByHeighWeight()
+{
+    for (Node &node : this->graph)
+    {
+        node.priortiseNeighbourByHeighWeight();
+        node.reset();
+    }
+}
+void Graph::priortiseNeighbourByLowWeight()
+{
+    for (Node &node : this->graph)
+    {
+        node.priortiseNeighbourByLowWeight();
+        node.reset();
+    }
+}
+void Graph::priortiseNeighbourByHeighNodeId()
+{
+    for (Node &node : this->graph)
+    {
+        node.priortiseNeighbourByHeighNodeId();
+        node.reset();
+    }
+}
+void Graph::priortiseNeighbourByLowNodeId()
+{
+    for (Node &node : this->graph)
+    {
+        node.priortiseNeighbourByLowNodeId();
+        node.reset();
+    }
+}
+void Graph::inputEdges(uint32_t numberOfEdges)
+{
+    for (uint32_t edgeNo = 0; edgeNo < numberOfEdges; edgeNo++)
+    {
+        int node1, node2, weight;
+        scanf("%d%d%d", &node1, &node2, &weight);
+        this->graph[node1].connect(graph[node2], weight);
+    }
 }
