@@ -7,7 +7,7 @@ namespace MyStl
 
     class BitArray
     {
-        typedef std::vector<unsigned long> Bits;
+        typedef std::vector<unsigned long long> Bits;
 
     public:
         BitArray(uint32_t size);
@@ -17,7 +17,7 @@ namespace MyStl
         inline uint32_t getSize() const;
 
     private:
-        static constexpr uint32_t elementSize = sizeof(unsigned long) * 8;
+        static constexpr uint32_t elementSize = sizeof(unsigned long long) * 8;
         uint32_t size;
         Bits bits;
     };
@@ -101,6 +101,6 @@ namespace MyStl
         void inputEdges(uint32_t numberOfEdges);
     };
 }
-#include "others.cpp"
-#include "bitArray.cpp"
-#include "graph.cpp"
+#include "src/others.cpp"
+#include "src/bitArray.cpp"
+#include "src/graph.cpp"

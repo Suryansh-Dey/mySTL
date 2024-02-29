@@ -1,4 +1,4 @@
-#include "mySTL.hpp"
+#include "../mySTL.hpp"
 using namespace MyStl;
 BitArray::BitArray(uint32_t size) : size(size), bits(size / elementSize + size % elementSize != 0)
 {
