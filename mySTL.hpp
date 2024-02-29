@@ -12,7 +12,8 @@ namespace MyStl
     public:
         BitArray(uint32_t size);
         void set(uint32_t index);
-        BitArray operator|=(BitArray);
+        void unset(uint32_t index);
+        void operator|=(BitArray &);
         void print() const;
         inline uint32_t getSize() const;
 
