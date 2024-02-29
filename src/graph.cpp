@@ -5,6 +5,29 @@ Node::Node(NodeId nodeId) : nodeId(nodeId)
     if (nodeId == Node::UNDEFINED_NODE)
         throw std::runtime_error("Node id should be a natural number\n");
 }
+void Node::point(const Node &node, Neighbour::Weight weight)
+{
+    this->neighbours.emplace_back(Neighbour{node.nodeId, weight});
+}
+bool Node::unpoint(const Node &node)
+{
+    for (Neighbour &neighbour : this->neighbours)
+    {
+        if (neighbour.nodeId == node.nodeId)
+        {
+            neighbour.nodeId = Node::UNDEFINED_NODE;
+            return true;
+        }
+    }
+    return false;
+}
+bool Node::unpointLastVisit(Graph &graph)
+{
+    if (this->lastVisit() == Node::UNDEFINED_NODE)
+        return false;
+    this->neighbours[this->neighbourIndexToVisit - 1].nodeId = Node::UNDEFINED_NODE;
+    return true;
+}
 void Node::connect(Node &node, Neighbour::Weight weight)
 {
     this->neighbours.emplace_back(Neighbour{node.nodeId, weight});
@@ -177,5 +200,14 @@ void Graph::inputEdges(uint32_t numberOfEdges)
         int node1, node2, weight;
         scanf("%d%d%d", &node1, &node2, &weight);
         this->graph[node1].connect(graph[node2], weight);
+    }
+}
+void Graph::inputDirectedEdges(uint32_t numberOfEdges)
+{
+    for (uint32_t edgeNo = 0; edgeNo < numberOfEdges; edgeNo++)
+    {
+        int node1, node2, weight;
+        scanf("%d%d%d", &node1, &node2, &weight);
+        this->graph[node1].point(graph[node2], weight);
     }
 }

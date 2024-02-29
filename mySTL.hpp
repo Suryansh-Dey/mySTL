@@ -38,6 +38,22 @@ namespace MyStl
         };
         static constexpr uint32_t UNDEFINED_NODE = 0;
         Node(NodeId nodeId);
+        void point(const Node &node, Neighbour::Weight weight);
+        /**
+         * Disconnects `this` from `node`
+         * @return
+         * - `false` on failure due to no existing connection
+         * of `this` with `node`
+         * - `true` otherwise
+         */
+        bool unpoint(const Node &node);
+        /**
+         * Disconnects the `node` which `this` visited last time
+         * @return
+         * - `false` if `this` never visited any node
+         * - `true` otherwise
+         */
+        bool unpointLastVisit(Graph &graph);
         void connect(Node &node, Neighbour::Weight weight);
         /**
          * Disconnects `this` from `node`
@@ -50,8 +66,8 @@ namespace MyStl
         /**
          * Disconnects the `node` which `this` visited last time
          * @return
-         * - `false` on failure due to no existing connection
-         * of `this` with `node`
+         * - `false` if `this` never visited any node || on failure due to
+         * no existing connection of `this` with `node`
          * - `true` otherwise
          */
         bool disconnectLastVisit(Graph &graph);
@@ -100,6 +116,7 @@ namespace MyStl
         void priortiseNeighbourByHeighNodeId();
         void priortiseNeighbourByLowNodeId();
         void inputEdges(uint32_t numberOfEdges);
+        void inputDirectedEdges(uint32_t numberOfEdges);
     };
 }
 #include "src/others.cpp"
