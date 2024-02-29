@@ -13,7 +13,12 @@ namespace MyStl
         BitArray(uint32_t size);
         void set(uint32_t index);
         void unset(uint32_t index);
+        bool get(uint32_t index);
         void operator|=(BitArray &);
+        void operator&=(BitArray &);
+        void operator^=(BitArray &);
+        void bitwiseNot();
+        BitArray operator~() const;
         void print() const;
         inline uint32_t getSize() const;
 

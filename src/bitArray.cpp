@@ -11,10 +11,36 @@ void BitArray::unset(uint32_t index)
 {
     this->bits[index / elementSize] &= ~(1ULL << (index % elementSize));
 }
+bool BitArray::get(uint32_t index)
+{
+    return this->bits[index / elementSize] & (1ULL << (index % elementSize));
+}
 void BitArray::operator|=(BitArray &bitArray)
 {
-    for (uint32_t elementNo = 0; elementNo < bits.size() && elementNo < bitArray.bits.size(); elementNo++)
+    for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
         this->bits[elementNo] |= bitArray.bits[elementNo];
+}
+void BitArray::operator&=(BitArray &bitArray)
+{
+    for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
+        this->bits[elementNo] &= bitArray.bits[elementNo];
+}
+void BitArray::operator^=(BitArray &bitArray)
+{
+    for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
+        this->bits[elementNo] ^= bitArray.bits[elementNo];
+}
+void BitArray::bitwiseNot()
+{
+    for (uint32_t elementNo = 0; elementNo < this->bits.size(); elementNo++)
+        this->bits[elementNo] = ~(this->bits[elementNo]);
+}
+BitArray BitArray::operator~() const
+{
+    BitArray bitArray = *this;
+    for (uint32_t elementNo = 0; elementNo < bitArray.bits.size(); elementNo++)
+        bitArray.bits[elementNo] = ~(bitArray.bits[elementNo]);
+    return bitArray;
 }
 void BitArray::print() const
 {
