@@ -49,8 +49,8 @@ void BitArray::print() const
         for (uint32_t bitNo = 0; bitNo < elementSize && bitNo + elementSize * elementNo < this->getSize(); bitNo++)
         {
             if (bitNo == 8)
-                std::cout << ' ';
-            std::cout << bool(this->bits[elementNo] & (1ULL << bitNo));
+                printf(" ");
+            printf("%c ", bool(this->bits[elementNo] & (1ULL << bitNo)));
         }
     }
 }

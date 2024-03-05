@@ -23,7 +23,7 @@ bool Node::unpoint(const Node &node)
 }
 bool Node::unpointLastVisit(Graph &graph)
 {
-    if (this->lastVisit() == Node::UNDEFINED_NODE)
+    if (this->lastVisited().nodeId == Node::UNDEFINED_NODE)
         return false;
     this->neighbours[this->neighbourIndexToVisit - 1].nodeId = Node::UNDEFINED_NODE;
     return true;
@@ -57,7 +57,7 @@ nextStep:
 }
 bool Node::disconnectLastVisit(Graph &graph)
 {
-    if (this->lastVisit() == Node::UNDEFINED_NODE)
+    if (this->lastVisited().nodeId == Node::UNDEFINED_NODE)
         return false;
     for (Neighbour &neighbour : graph[this->neighbours[this->neighbourIndexToVisit - 1].nodeId].neighbours)
     {
@@ -70,7 +70,7 @@ bool Node::disconnectLastVisit(Graph &graph)
     }
     return false;
 }
-Node::NodeId Node::move(Graph &graph)
+Node::Neighbour Node::move(Graph &graph)
 {
     for (uint32_t neighbourInex = this->neighbourIndexToVisit; neighbourInex < neighbours.size(); neighbourInex++)
     {
@@ -78,14 +78,18 @@ Node::NodeId Node::move(Graph &graph)
         {
             graph[neighbours[neighbourInex].nodeId].markVisited(this->nodeId);
             this->neighbourIndexToVisit = neighbourInex + 1;
-            return neighbours[neighbourInex].nodeId;
+            return neighbours[neighbourInex];
         }
     }
-    return Node::UNDEFINED_NODE;
+    return Neighbour{Node::UNDEFINED_NODE, 0};
 }
-Node::NodeId Node::backtrack() const
+Node::NodeId Node::lastVisitorId() const
 {
     return this->visitorNodeId;
+}
+Node::Neighbour Node::lastVisitor(const Graph &graph) const
+{
+    return Neighbour{this->lastVisitorId(), graph[this->lastVisitorId()].lastVisited().weight};
 }
 void Node::markVisited(NodeId visitorNodeId)
 {
@@ -93,25 +97,25 @@ void Node::markVisited(NodeId visitorNodeId)
 }
 bool Node::isVisited() const
 {
-    return this->visitorNodeId != Node::UNDEFINED_NODE;
+    return this->visitorNodeId != UNDEFINED_NODE;
 }
 void Node::reset()
 {
     this->visitorNodeId = Node::Node::UNDEFINED_NODE;
     this->neighbourIndexToVisit = 0;
 }
-Node::NodeId Node::lastVisit() const
+Node::Neighbour Node::lastVisited() const
 {
-    return this->neighbourIndexToVisit == 0 ? Node::UNDEFINED_NODE : this->neighbours[this->neighbourIndexToVisit - 1].nodeId;
+    return this->neighbourIndexToVisit == 0 ? Neighbour{Node::UNDEFINED_NODE, 0} : this->neighbours[this->neighbourIndexToVisit - 1];
 }
-bool Node::hasVisitedNeighbour(const Graph &graph) const
+Node::Neighbour Node::hasVisitedNeighbour(const Graph &graph) const
 {
     for (Neighbour neighbour : this->neighbours)
     {
-        if (graph[neighbour.nodeId].isVisited())
-            return true;
+        if (graph[neighbour.nodeId].isVisited() && graph[neighbour.nodeId].nodeId != this->lastVisitorId())
+            return neighbour;
     }
-    return false;
+    return Neighbour{Node::UNDEFINED_NODE, 0};
 }
 uint32_t Node::neighbourCount() const
 {
@@ -121,22 +125,22 @@ std::vector<Node::Neighbour> Node::get_neighbours() const
 {
     return this->neighbours;
 }
-inline void Node::priortiseNeighbourByHeighWeight()
+void Node::priortiseNeighbourByHeighWeight()
 {
     std::sort(this->neighbours.begin(), this->neighbours.end(), [](Neighbour neighbour1, Neighbour neighbour2)
               { return neighbour1.weight > neighbour2.weight; });
 }
-inline void Node::priortiseNeighbourByLowWeight()
+void Node::priortiseNeighbourByLowWeight()
 {
     std::sort(this->neighbours.begin(), this->neighbours.end(), [](Neighbour neighbour1, Neighbour neighbour2)
               { return neighbour1.weight < neighbour2.weight; });
 }
-inline void Node::priortiseNeighbourByHeighNodeId()
+void Node::priortiseNeighbourByHeighNodeId()
 {
     std::sort(this->neighbours.begin(), this->neighbours.end(), [](Neighbour neighbour1, Neighbour neighbour2)
               { return neighbour1.nodeId > neighbour2.nodeId; });
 }
-inline void Node::priortiseNeighbourByLowNodeId()
+void Node::priortiseNeighbourByLowNodeId()
 {
     std::sort(this->neighbours.begin(), this->neighbours.end(), [](Neighbour neighbour1, Neighbour neighbour2)
               { return neighbour1.nodeId < neighbour2.nodeId; });
