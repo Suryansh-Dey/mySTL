@@ -76,7 +76,6 @@ Node::Neighbour Node::move(Graph &graph)
     {
         if (not graph[neighbours[neighbourInex].nodeId].isVisited() && neighbours[neighbourInex].nodeId != Node::UNDEFINED_NODE)
         {
-            graph[neighbours[neighbourInex].nodeId].markVisited(this->nodeId);
             this->neighbourIndexToVisit = neighbourInex + 1;
             return neighbours[neighbourInex];
         }
@@ -156,14 +155,15 @@ void Graph::reset()
 {
     for (Node &node : this->graph)
         node.reset();
+    this->lastUnvisitedNodeId = 1;
 }
 Node &Graph::operator[](Node::NodeId nodeId)
 {
-    return graph[nodeId];
+    return this->graph[nodeId];
 }
 const Node &Graph::operator[](Node::NodeId nodeId) const
 {
-    return graph[nodeId];
+    return this->graph[nodeId];
 }
 void Graph::priortiseNeighbourByHeighWeight()
 {
@@ -214,4 +214,14 @@ void Graph::inputDirectedEdges(uint32_t numberOfEdges)
         scanf("%d%d%d", &node1, &node2, &weight);
         this->graph[node1].point(graph[node2], weight);
     }
+}
+Node::NodeId Graph::unvisitedNode()
+{
+    while(this->lastUnvisitedNodeId < this->graph.size() && this->graph[this->lastUnvisitedNodeId].isVisited())
+    {
+        this->lastUnvisitedNodeId++;
+    }
+    if(this->lastUnvisitedNodeId >= this->graph.size())
+        return Node::UNDEFINED_NODE;
+    return this->lastUnvisitedNodeId;
 }

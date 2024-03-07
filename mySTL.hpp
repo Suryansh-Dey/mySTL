@@ -25,7 +25,7 @@ namespace MyStl
         void print() const;
         inline uint32_t getSize() const;
 
-    private:
+    protected:
         static constexpr uint32_t elementSize = sizeof(unsigned long long) * 8;
         uint32_t size;
         Bits bits;
@@ -47,8 +47,9 @@ namespace MyStl
         static constexpr uint32_t UNDEFINED_NODE = 0;
         Node(NodeId nodeId);
         /**
-         * 
-        */
+         * @warning
+         * connecting with Node of NodeId = 0 will lead to undefined behaviour
+         */
         void point(const Node &node, Neighbour::Weight weight);
         /**
          * Disconnects `this` from `node`
@@ -67,6 +68,10 @@ namespace MyStl
          * - `true` otherwise
          */
         bool unpointLastVisit(Graph &graph);
+        /**
+         * @warning
+         * connecting with Node of NodeId = 0 will lead to undefined behaviour
+         */
         void connect(Node &node, Neighbour::Weight weight);
         /**
          * Disconnects `this` from `node`
@@ -87,10 +92,16 @@ namespace MyStl
          */
         bool disconnectLastVisit(Graph &graph);
         /**
-         * - time complexity O(1)
+         * - moves to an unvisited node
+         * - time complexity at worst case O(neighbour count)
+         * however, even if you call the function number of times before
+         * last Neighbour is reached and before Graph::reset() is called, total time complexity will still be
+         * O(neighbour count) instead of number of calls * O(neighbour count)
          * @return
          * - `Node::UNDEFINED_NODE` if `this` is at dead end
          * - `NodeId` of newly visited `node` otherwise
+         * @note
+         * it doesn't mark it to be visited
          */
         Neighbour move(Graph &graph);
         /**
@@ -109,18 +120,18 @@ namespace MyStl
         inline Neighbour lastVisitor(const Graph &graph) const;
         /**
          * - time complexity O(1)
-        */
+         */
         inline void markVisited(NodeId visitorNodeId);
         /**
          * - time complexity O(1)
-        */
+         */
         inline bool isVisited() const;
         /**
          * - time complexity O(1)
          * @return
          * - `Neighbour` which `this` visited last time
          * - `Neighbour{nodeId = UNDEFINED_NODE, weight = 0}` if `this` never visited any node
-        */
+         */
         inline Neighbour lastVisited() const;
         /**
          * - time complexity O(`this.neighbourCount`)
@@ -132,27 +143,27 @@ namespace MyStl
         inline Neighbour hasVisitedNeighbour(const Graph &graph) const;
         /**
          * - time complexity O(1)
-        */
+         */
         inline uint32_t neighbourCount() const;
         /**
          * - time complexity O(`this.neighbourCount`)
-        */
+         */
         inline std::vector<Neighbour> get_neighbours() const;
         /**
          * - time complexity O(`this.neighbourCount` * log(`this.neighbourCount`))
-        */
+         */
         inline void priortiseNeighbourByHeighWeight();
         /**
          * - time complexity O(`this.neighbourCount` * log(`this.neighbourCount`))
-        */
+         */
         inline void priortiseNeighbourByLowWeight();
         /**
          * - time complexity O(`this.neighbourCount` * log(`this.neighbourCount`))
-        */
+         */
         inline void priortiseNeighbourByHeighNodeId();
         /**
          * - time complexity O(`this.neighbourCount` * log(`this.neighbourCount`))
-        */
+         */
         inline void priortiseNeighbourByLowNodeId();
 
     protected:
@@ -165,8 +176,6 @@ namespace MyStl
 
     class Graph
     {
-        std::vector<Node> graph;
-
     public:
         Graph(uint32_t nodeCount);
         Node &operator[](Node::NodeId nodeId);
@@ -178,8 +187,24 @@ namespace MyStl
         void priortiseNeighbourByLowNodeId();
         void inputEdges(uint32_t numberOfEdges);
         void inputDirectedEdges(uint32_t numberOfEdges);
+        /**
+         * - `time complexity` O(next unvisited NodeId - last returned NodeId)
+         * - In long, even if you call the function number of times before
+         * last NodeId is reached and before Graph::reset() is called, total time complexity will still be
+         * O(last NodeId or number of nodes) instead of number of calls
+         * * O(last NodeId or number of nodes)
+         * @return
+         * - `NodeId` of first unvisited node in the graph
+         * - `UNDEFINED_NODE` if all nodes in the graph is visited already
+         */
+        Node::NodeId unvisitedNode();
+
+    protected:
+        std::vector<Node> graph;
+        Node::NodeId lastUnvisitedNodeId = 1;
     };
 }
+//lib files
 #include "src/others.cpp"
 #include "src/bitArray.cpp"
 #include "src/graph.cpp"

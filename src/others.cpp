@@ -14,6 +14,10 @@ void MyStl::print1D(type array1D, size_t size)
 std::pair<uint32_t, uint32_t> MyStl::firstDifferenceFile(const char *outputFilePath, const char *testFilePath)
 {
     std::ifstream outputFile(outputFilePath), testFile(testFilePath);
+    if (!outputFile.is_open())
+        throw std::runtime_error("MyStl::firstDifferenceFile(const char *outputFilePath, const char *testFilePath) failed.\nNo file found of passed outputFilePath");
+    if (!testFile.is_open())
+        throw std::runtime_error("MyStl::firstDifferenceFile(const char *outputFilePath, const char *testFilePath) failed.\nNo file found of passed testFilePath");
     uint32_t lineNo = 0;
     std::string outputLine, testLine;
     bool outputEOF = false, testEOF = false;
@@ -30,7 +34,7 @@ std::pair<uint32_t, uint32_t> MyStl::firstDifferenceFile(const char *outputFileP
         outputEOF = bool(getline(outputFile, outputLine));
         testEOF = bool(getline(testFile, testLine));
     }
-    if(outputEOF || testEOF)
+    if (outputEOF || testEOF)
         return std::make_pair(lineNo, 0);
     return std::make_pair(0, 0);
 }
