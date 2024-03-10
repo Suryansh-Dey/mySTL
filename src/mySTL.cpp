@@ -1,11 +1,10 @@
 #include <stdexcept>
 #include <fstream>
 #include <string>
-#include <sstream>
 #include <cstring>
 #include <vector>
 #include <filesystem>
-#include <regex>
+
 std::vector<std::string> getFilenamesInDirectory(const std::string &directoryPath)
 {
     std::vector<std::string> filenames;

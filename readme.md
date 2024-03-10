@@ -5,7 +5,8 @@ Read `mySTL.hpp` for documentation of the library.
 Yup I am that lazy
 # mySTL.hpp
 You can add ```#include<mySTL/mySTL.hpp>``` like any other library and thanks to `mystl.hpp.gch`, pre-compiled header, present in the same directory as `mySTL.hpp`, compilation time cutts of by 75%!!  
-That saves of 3 seconds of boring time.
+- That saves of 3 seconds of boring time.
+- It internally includes all standard C++ libarary. No more hardwork
 # mySTL.exe 
 This allows you to submit your code on an online platform which take a single main file by copy pasting mySTL library just above your code  
 fuck off mac users
