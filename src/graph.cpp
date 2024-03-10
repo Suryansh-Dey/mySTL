@@ -3,7 +3,7 @@ using namespace MyStl;
 Node::Node(NodeId nodeId) : nodeId(nodeId)
 {
     if (nodeId == Node::UNDEFINED_NODE)
-        throw std::runtime_error("Node id should be a natural number\n");
+        throw std::runtime_error("MyStl::Node::Node() failed.\nNode id should be a natural number\n");
 }
 void Node::point(const Node &node, Neighbour::Weight weight)
 {
@@ -72,12 +72,22 @@ bool Node::disconnectLastVisit(Graph &graph)
 }
 Node::Neighbour Node::move(Graph &graph)
 {
-    for (uint32_t neighbourInex = this->neighbourIndexToVisit; neighbourInex < neighbours.size(); neighbourInex++)
+    uint32_t neighbourIndex = this->neighbourIndexToVisit;
+    while (neighbourIndex < this->neighbours.size() && (this->neighbours[neighbourIndex].nodeId == Node::UNDEFINED_NODE || this->neighbours[neighbourIndex].nodeId == this->lastVisitorId()))
     {
-        if (not graph[neighbours[neighbourInex].nodeId].isVisited() && neighbours[neighbourInex].nodeId != Node::UNDEFINED_NODE)
+        neighbourIndex++;
+    }
+    this->neighbourIndexToVisit = neighbourIndex + (neighbourIndex < this->neighbours.size());
+    return neighbourIndex < this->neighbours.size() ? this->neighbours[neighbourIndex] : Neighbour{Node::UNDEFINED_NODE, 0};
+}
+Node::Neighbour Node::moveUnvisited(Graph &graph)
+{
+    for (uint32_t neighbourIndex = this->neighbourIndexToVisit; neighbourIndex < this->neighbours.size(); neighbourIndex++)
+    {
+        if (!graph[this->neighbours[neighbourIndex].nodeId].isVisited() && this->neighbours[neighbourIndex].nodeId != Node::UNDEFINED_NODE && this->neighbours[neighbourIndex].nodeId != this->lastVisitorId())
         {
-            this->neighbourIndexToVisit = neighbourInex + 1;
-            return neighbours[neighbourInex];
+            this->neighbourIndexToVisit = neighbourIndex + 1;
+            return this->neighbours[neighbourIndex];
         }
     }
     return Neighbour{Node::UNDEFINED_NODE, 0};
@@ -120,9 +130,28 @@ uint32_t Node::neighbourCount() const
 {
     return this->neighbours.size();
 }
-std::vector<Node::Neighbour> Node::get_neighbours() const
+const std::vector<Node::Neighbour> &Node::get_neighbours() const
 {
     return this->neighbours;
+}
+uint32_t Node::get_priorty(Node::NodeId neighbour) const
+{
+    uint32_t neighbourIdx = 0;
+    while (neighbourIdx < this->neighbours.size())
+    {
+        if (this->neighbours[neighbourIdx].nodeId == neighbour)
+            return neighbourIdx;
+        neighbourIdx++;
+    }
+    throw std::runtime_error("MyStl::Node::get_priorty() failed./nNo neighbour has given NodeId");
+}
+void Node::priortiseNeighbourHighest(Node::NodeId neighbour)
+{
+    std::swap(this->neighbours[get_priorty(neighbour)], this->neighbours[this->neighbours.size() - 1]);
+}
+void Node::priortiseNeighbourLowest(Node::NodeId neighbour)
+{
+    std::swap(this->neighbours[get_priorty(neighbour)], this->neighbours[0]);
 }
 void Node::priortiseNeighbourByHeighWeight()
 {
@@ -201,27 +230,29 @@ void Graph::inputEdges(uint32_t numberOfEdges)
 {
     for (uint32_t edgeNo = 0; edgeNo < numberOfEdges; edgeNo++)
     {
-        int node1, node2, weight;
+        Node::NodeId node1, node2;
+        Node::Neighbour::Weight weight;
         scanf("%d%d%d", &node1, &node2, &weight);
-        this->graph[node1].connect(graph[node2], weight);
+        this->graph[node1].connect(this->graph[node2], weight);
     }
 }
 void Graph::inputDirectedEdges(uint32_t numberOfEdges)
 {
     for (uint32_t edgeNo = 0; edgeNo < numberOfEdges; edgeNo++)
     {
-        int node1, node2, weight;
+        Node::NodeId node1, node2;
+        Node::Neighbour::Weight weight;
         scanf("%d%d%d", &node1, &node2, &weight);
-        this->graph[node1].point(graph[node2], weight);
+        this->graph[node1].point(this->graph[node2], weight);
     }
 }
 Node::NodeId Graph::unvisitedNode()
 {
-    while(this->lastUnvisitedNodeId < this->graph.size() && this->graph[this->lastUnvisitedNodeId].isVisited())
+    while (this->lastUnvisitedNodeId < this->graph.size() && this->graph[this->lastUnvisitedNodeId].isVisited())
     {
         this->lastUnvisitedNodeId++;
     }
-    if(this->lastUnvisitedNodeId >= this->graph.size())
+    if (this->lastUnvisitedNodeId >= this->graph.size())
         return Node::UNDEFINED_NODE;
     return this->lastUnvisitedNodeId;
 }
