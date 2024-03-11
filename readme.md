@@ -15,13 +15,13 @@ Fuck off mac or linux users, you are too fancy (complie the src/mySTL.cpp and sa
 - It takes two command line argument, your_source_file_path output_file_path  
 - If only one argument of source_file_path provided, the default output_file_name is choosen to be MYSTL_source_file_name and stored at source_file_directory
 ## How to use
-It removes first line of your code assuming it to be ```#include<mySTL/mySTL.hpp>``` and adds the whole source code mySTL library only  
+It removes first line of your code assuming it to be ```#include<mySTL/mySTL.hpp>``` and adds the whole source code of mySTL library only  
 Example:  
 On terminal run
 ```
 > mystl main.cpp
 ```
-and you will get a `MYSTL_main.cpp` file which have 1st line replaced by mySTL source code
+and you will get a `MYSTL_main.cpp` file which has 1st line replaced by mySTL source code
 ## Setup
 To use it like a command line program from every location you will have to
 following steps:
