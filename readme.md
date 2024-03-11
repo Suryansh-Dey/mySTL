@@ -9,14 +9,20 @@ You can add ```#include<mySTL/mySTL.hpp>``` like any other library and thanks to
 - It internally includes all standard C++ libarary. No more hardwork
 # mySTL.exe 
 This allows you to submit your code on an online platform which take a single main file by copy pasting mySTL library just above your code  
-fuck off mac users
+Fuck off mac or linux users, you are too fancy
 ## Arguments
-- it takes two command line argument, your_source_file_path output_file_path  
-- if only one argument of source_file_path provided, the default output_file_name is choosen to be MYSTL_source_file_name and stored at source_file_directory
-## Working
-it removes first line of your code assuming it to be ```#include<mySTL/mySTL.hpp>``` and adds the whole code mySTL library only
+- It takes two command line argument, your_source_file_path output_file_path  
+- If only one argument of source_file_path provided, the default output_file_name is choosen to be MYSTL_source_file_name and stored at source_file_directory
+## How to use
+It removes first line of your code assuming it to be ```#include<mySTL/mySTL.hpp>``` and adds the whole source code mySTL library only  
+Example:  
+On terminal run
+```
+> mystl main.cpp
+```
+and you will get a `MYSTL_main.cpp` file which have 1st line replaced by mySTL source code
 ## Setup
-to use it like a command line program from every location you will have to
+To use it like a command line program from every location you will have to
 following steps:
 1. open All programs (window key on windows)
 2. search edit environment variables and press enter
@@ -24,9 +30,16 @@ following steps:
 4. under `user variables for <user_name>` click on `Path`
 5. click edit
 6. paste the location of mySTL folder on at last line  
-YOU ARE ALL SET NOW! 
+Now open a new terminal and run
+```
+> mystl --version
+```
+If this prints `This is mySTL version <version_number>`, YOU ARE ALL SET!!
+## Flags
+- `--version` to get version number
+- `--help` to know about arguments it takes
 ## Adding custom functions
-I love freedom, infact that's the whole motivation behind C++ too  
+We love freedom, infact that's the whole motivation behind C++ too  
 You can go to `mySTL.hpp` file and within the MyStl namespace, you can add your own classes  
 To write you definations to them, make a new file in src folder start defining them and THATS ALL!  
 mySTL.exe will take care of them too, its not as selfish as you  

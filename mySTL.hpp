@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+#include <stdio.h>
 namespace MyStl
 {
     template <typename type>
