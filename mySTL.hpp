@@ -1,4 +1,8 @@
 #pragma once
+/*Author: Suryansh Dey
+This is free library; it is allowed to circulate it with your name too, no hunger of fame.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 #include <bits/stdc++.h>
 #include <stdio.h>
 namespace MyStl
