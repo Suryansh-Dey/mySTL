@@ -1,48 +1,48 @@
 #include "../mySTL.hpp"
-using namespace MyStl;
-BitArray::BitArray(uint32_t size) : size(size), bits(size / elementSize + size % elementSize != 0)
+
+MyStl::BitArray::BitArray(uint32_t size) : size(size), bits(size / elementSize + size % elementSize != 0)
 {
 }
-void BitArray::set(uint32_t index)
+void MyStl::BitArray::set(uint32_t index)
 {
     this->bits[index / elementSize] |= 1ULL << (index % elementSize);
 }
-void BitArray::unset(uint32_t index)
+void MyStl::BitArray::unset(uint32_t index)
 {
     this->bits[index / elementSize] &= ~(1ULL << (index % elementSize));
 }
-bool BitArray::get(uint32_t index)
+bool MyStl::BitArray::get(uint32_t index)
 {
     return this->bits[index / elementSize] & (1ULL << (index % elementSize));
 }
-void BitArray::operator|=(BitArray &bitArray)
+void MyStl::BitArray::operator|=(BitArray &bitArray)
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
         this->bits[elementNo] |= bitArray.bits[elementNo];
 }
-void BitArray::operator&=(BitArray &bitArray)
+void MyStl::BitArray::operator&=(BitArray &bitArray)
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
         this->bits[elementNo] &= bitArray.bits[elementNo];
 }
-void BitArray::operator^=(BitArray &bitArray)
+void MyStl::BitArray::operator^=(BitArray &bitArray)
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
         this->bits[elementNo] ^= bitArray.bits[elementNo];
 }
-void BitArray::bitwiseNot()
+void MyStl::BitArray::bitwiseNot()
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size(); elementNo++)
         this->bits[elementNo] = ~(this->bits[elementNo]);
 }
-BitArray BitArray::operator~() const
+MyStl::BitArray MyStl::BitArray::operator~() const
 {
     BitArray bitArray = *this;
     for (uint32_t elementNo = 0; elementNo < bitArray.bits.size(); elementNo++)
         bitArray.bits[elementNo] = ~(bitArray.bits[elementNo]);
     return bitArray;
 }
-void BitArray::print() const
+void MyStl::BitArray::print() const
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size(); elementNo++)
     {
@@ -54,7 +54,7 @@ void BitArray::print() const
         }
     }
 }
-uint32_t BitArray::getSize() const
+uint32_t MyStl::BitArray::getSize() const
 {
     return this->size;
 }

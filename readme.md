@@ -1,5 +1,5 @@
 # Aim
-To make the you best competitive programmer!
+To make the you best competitive programmer on earth!
 # Documentation
 Read `mySTL.hpp` for documentation of the library.  
 Yup I m that lzy

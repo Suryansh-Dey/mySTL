@@ -42,7 +42,9 @@ int main(int argc, char *argv[])
             std::string flag = std::string(argv[1]).substr(1, strlen(argv[1]));
             if (flag == "-version")
                 std::cout << "This is mySTL version 1.0\n"
-                          << "Author: Suryansh Dey";
+                          << "Author: Suryansh Dey\n"
+                          << "This is free library; it is allowed to circulate it with your name, no hunger of fame.\n"
+                          << "There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
             else if (flag == "-help")
                 std::cout << "It removes first line of your code and adds the whole source code of mySTL library only.\n"
                           << "Arguments:\n- It takes two command line argument, your_source_file_path output_file_path\n- If only one argument of source_file_path provided, the default output_file_name is choosen to be MYSTL_source_file_name and stored at source_file_directory\n"

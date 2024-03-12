@@ -1,6 +1,6 @@
 #pragma once
 /*Author: Suryansh Dey
-This is free library; it is allowed to circulate it with your name too, no hunger of fame.
+This is free library; it is allowed to circulate it with your name, no hunger of fame.
 There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 #include <bits/stdc++.h>
@@ -12,6 +12,7 @@ namespace MyStl
     template <typename type>
     void print1D(type array1D, size_t size);
     std::pair<uint32_t, uint32_t> firstDifferenceFile(const char *outputFilePath, const char *testFilePath);
+    #define FOR(end) for (int i = 0; i < end; i++)
 
     class BitArray
     {
