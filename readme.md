@@ -14,7 +14,7 @@ like any other library and thanks to `mystl.hpp.gch`, pre-compiled header, prese
 # mySTL.exe 
 This allows you to submit your code on an online platform, which takes a single main file, by copy pasting mySTL library just above your code
 ## For mac or linux 
-Fuck off mac or linux users, you are too fancy (complie the src/mySTL.cpp and save the executable in mySTL folder by deleting the the mySTL.exe file and rest of everything will work the same in linux or mac device too)
+Fuck off mac or linux users, you are too fancy (complie the src/mySTL.cpp and save the executable in mySTL/bin folder by deleting the the mySTL.exe file and rest of everything will work the same on linux or mac device too)
 ## Arguments
 - It takes two command line argument, your_source_file_path output_file_path  
 - If only one argument of source_file_path provided, the default output_file_name is choosen to be MYSTL_source_file_name and stored at source_file_directory
@@ -38,7 +38,7 @@ following steps:
 3. click on environment variables button
 4. under `user variables for <user_name>` click on `Path`
 5. click edit
-6. paste the location of mySTL folder on at last line  
+6. paste the location of mySTL/bin folder on at last line  
 Now open a new terminal and run
 ```
 > mystl --version

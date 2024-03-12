@@ -24,9 +24,7 @@ std::string_view removeLeadingWhiteSpace(const std::string &str)
 {
     size_t index = str.find_first_not_of(" \t\n\r\f\v");
     if (index == std::string::npos)
-    {
         return "";
-    }
     return std::string_view(str.data() + index, str.size());
 }
 int main(int argc, char *argv[])
@@ -60,20 +58,11 @@ int main(int argc, char *argv[])
         destinationPath = argv[2];
     else
         throw std::runtime_error("Too many arguments");
-    unsigned int nameLength = strlen(argv[0]);
-    for (unsigned int i = nameLength; i >= 1; i--)
-    {
-        if (argv[0][i - 1] == '\\' or argv[0][i - 1] == '/')
-        {
-            argv[0][i] = '\0';
-            break;
-        }
-    }
-    std::string basePath = argv[0];
+    std::string basePath = std::filesystem::path(argv[0]).parent_path().parent_path().string() + '\\';
     // opening and checking files
     std::ifstream sourceFile((argv[1])), header(basePath + "mySTL.hpp");
     if (not header.is_open())
-        throw std::runtime_error("Cannot find mySTL.hpp at expected path");
+        throw std::runtime_error("Cannot find mySTL.hpp at expected path: " + basePath);
     if (not sourceFile.is_open())
         throw std::runtime_error("Cannot open source file of given path");
     std::ofstream destinationFile(destinationPath);
@@ -86,7 +75,7 @@ int main(int argc, char *argv[])
     while (std::getline(header, line) && line != "// MYSTL_END")
     {
         std::string_view removedSpaces = removeLeadingWhiteSpace(line);
-        if (removedSpaces == "")
+        if (!removedSpaces.size())
             continue;
         if (multilineComment)
         {
@@ -111,8 +100,6 @@ int main(int argc, char *argv[])
     for (std::string libFileName : libFiles)
     {
         std::ifstream libFile(basePath + "src\\" + libFileName);
-        if (not libFile.is_open())
-            throw std::runtime_error("Cannot find " + libFileName + " at expected path");
         std::getline(libFile, line);
         while (std::getline(libFile, line))
             destinationFile << line << '\n';
