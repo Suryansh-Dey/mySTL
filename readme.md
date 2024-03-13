@@ -38,12 +38,13 @@ following steps:
 3. click on environment variables button
 4. under `user variables for <user_name>` click on `Path`
 5. click edit
-6. paste the location of mySTL/bin folder on at last line  
+6. paste the location of mySTL/bin folder on at last line
+7. finally, hit ok. 
 Now open a new terminal and run
 ```
 > mystl --version
 ```
-If this prints `This is mySTL version <version_number>`, YOU ARE ALL SET!!
+If this prints `This is mySTL version <version_number>`, YOU ARE ALL SET!! else, you messed something. Try cloning the repository again and repeat the same steps
 ## Flags
 - `--version` to get version number
 - `--help` to know about arguments it takes
