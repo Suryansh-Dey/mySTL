@@ -1,7 +1,6 @@
 #include <stdexcept>
 #include <fstream>
 #include <string>
-#include <cstring>
 #include <vector>
 #include <filesystem>
 #include <iostream>
@@ -37,7 +36,7 @@ int main(int argc, char *argv[])
     {
         if (argv[1][0] == '-')
         {
-            std::string flag = std::string(argv[1]).substr(1, strlen(argv[1]));
+            std::string flag = std::string(argv[1] + 1);
             if (flag == "-version")
                 std::cout << "This is mySTL version 1.0\n"
                           << "Author: Suryansh Dey\n"

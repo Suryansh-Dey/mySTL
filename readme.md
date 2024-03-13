@@ -39,7 +39,7 @@ following steps:
 4. under `user variables for <user_name>` click on `Path`
 5. click edit
 6. paste the location of mySTL/bin folder on at last line
-7. finally, hit ok. 
+7. finally, hit ok.  
 Now open a new terminal and run
 ```
 > mystl --version
