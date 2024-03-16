@@ -1,6 +1,6 @@
 #include "../mySTL.hpp"
 
-MyStl::BitArray::BitArray(uint32_t size) : size(size), bits(size / elementSize + size % elementSize != 0)
+MyStl::BitArray::BitArray(uint32_t size) noexcept : size(size), bits(size / elementSize + size % elementSize != 0)
 {
 }
 void MyStl::BitArray::set(uint32_t index)
@@ -15,34 +15,34 @@ bool MyStl::BitArray::get(uint32_t index)
 {
     return this->bits[index / elementSize] & (1ULL << (index % elementSize));
 }
-void MyStl::BitArray::operator|=(BitArray &bitArray)
+void MyStl::BitArray::operator|=(BitArray &bitArray) noexcept
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
         this->bits[elementNo] |= bitArray.bits[elementNo];
 }
-void MyStl::BitArray::operator&=(BitArray &bitArray)
+void MyStl::BitArray::operator&=(BitArray &bitArray) noexcept
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
         this->bits[elementNo] &= bitArray.bits[elementNo];
 }
-void MyStl::BitArray::operator^=(BitArray &bitArray)
+void MyStl::BitArray::operator^=(BitArray &bitArray) noexcept
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size() && elementNo < bitArray.bits.size(); elementNo++)
         this->bits[elementNo] ^= bitArray.bits[elementNo];
 }
-void MyStl::BitArray::bitwiseNot()
+void MyStl::BitArray::bitwiseNot() noexcept
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size(); elementNo++)
         this->bits[elementNo] = ~(this->bits[elementNo]);
 }
-MyStl::BitArray MyStl::BitArray::operator~() const
+MyStl::BitArray MyStl::BitArray::operator~() const noexcept
 {
     BitArray bitArray = *this;
     for (uint32_t elementNo = 0; elementNo < bitArray.bits.size(); elementNo++)
         bitArray.bits[elementNo] = ~(bitArray.bits[elementNo]);
     return bitArray;
 }
-void MyStl::BitArray::print() const
+void MyStl::BitArray::print() const noexcept
 {
     for (uint32_t elementNo = 0; elementNo < this->bits.size(); elementNo++)
     {
@@ -54,7 +54,7 @@ void MyStl::BitArray::print() const
         }
     }
 }
-uint32_t MyStl::BitArray::getSize() const
+uint32_t MyStl::BitArray::getSize() const noexcept
 {
     return this->size;
 }

@@ -1,35 +1,67 @@
 #pragma once
 /*Author: Suryansh Dey
-This is free library; it is allowed to circulate it with your name, no hunger of fame.
-There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This is free library noexcept; it is allowed to circulate it with your name, no hunger of fame.
+There is NO warranty noexcept; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 #include <bits/stdc++.h>
 #include <stdio.h>
 namespace MyStl
 {
     template <typename type>
-    void print1D(type array1D);
+    void print1D(type array1D) noexcept;
     template <typename type>
-    void print1D(type array1D, size_t size);
+    void print1D(type array1D, size_t size) noexcept;
+    /**
+     * @return
+     * - `(line_number, column_number)` of first difference
+     * - `(0, 0)` if both files are same
+     * @exception
+     * if cannot open the given outputFilePath or testFilePath
+    */
     std::pair<uint32_t, uint32_t> firstDifferenceFile(const char *outputFilePath, const char *testFilePath);
-    #define FOR(end) for (int i = 0; i < end; i++)
+    /**
+     * just write
+     * FOR(number_of_times_to_loop)
+     * {
+     *      cout << "Note: i is accessible here: " << i << '\n';
+     * }
+     * @note
+     * i is accessible inside the loop which varies from 1 to number_of_times_to_loop-1
+     * throught the loop as usual
+     */
+#define FOR(end) for (int i = 0 noexcept; i < end noexcept; i++)
 
     class BitArray
     {
         typedef std::vector<unsigned long long> Bits;
 
     public:
-        BitArray(uint32_t size);
+        BitArray(uint32_t size) noexcept;
+        /**
+         * @warning
+         * trying to excess index < 1 or index >= `this->size` will
+         * lead to exception from std::vector or undefined behaviour
+         */
         void set(uint32_t index);
+        /**
+         * @warning
+         * trying to excess index < 1 or index >= `this->size` will
+         * lead to exception from std::vector or undefined behaviour
+         */
         void unset(uint32_t index);
+        /**
+         * @warning
+         * trying to excess index < 1 or index >= `this->size` will
+         * lead to exception from std::vector or undefined behaviour
+         */
         bool get(uint32_t index);
-        void operator|=(BitArray &);
-        void operator&=(BitArray &);
-        void operator^=(BitArray &);
-        void bitwiseNot();
-        BitArray operator~() const;
-        void print() const;
-        inline uint32_t getSize() const;
+        void operator|=(BitArray &) noexcept;
+        void operator&=(BitArray &) noexcept;
+        void operator^=(BitArray &) noexcept;
+        void bitwiseNot() noexcept;
+        BitArray operator~() const noexcept;
+        void print() const noexcept;
+        inline uint32_t getSize() const noexcept;
 
     protected:
         static constexpr uint32_t elementSize = sizeof(unsigned long long) * 8;
@@ -58,7 +90,7 @@ namespace MyStl
          * @warning
          * connecting with Node of NodeId = 0 will lead to undefined behaviour
          */
-        void point(const Node &node, Neighbour::Weight weight);
+        void point(const Node &node, Neighbour::Weight weight) noexcept;
         /**
          * Disconnects `this` from `node`
          * - time complexity O(`this->neighbourCount`)
@@ -67,7 +99,7 @@ namespace MyStl
          * of `this` with `node`
          * - `true` otherwise
          */
-        bool unpoint(const Node &node);
+        bool unpoint(const Node &node) noexcept;
         /**
          * Disconnects the `node` which `this` visited last time
          * - time complexity O(1)
@@ -75,14 +107,14 @@ namespace MyStl
          * - `false` if `this` never visited any node
          * - `true` otherwise
          */
-        bool unpointLastVisit(Graph &graph);
+        bool unpointLastVisit(Graph &graph) noexcept;
         /**
          * creates an undirected edge
          * time complexity O(1)
          * @warning
          * connecting with Node of NodeId = 0 will lead to undefined behaviour
          */
-        void connect(Node &node, Neighbour::Weight weight);
+        void connect(Node &node, Neighbour::Weight weight) noexcept;
         /**
          * Disconnects `this` from `node`
          * - time complexity O(`this->neighbourCount`)
@@ -91,7 +123,7 @@ namespace MyStl
          * of `this` with `node`
          * - `true` otherwise
          */
-        bool disconnect(Node &node);
+        bool disconnect(Node &node) noexcept;
         /**
          * Disconnects the `node` which `this` visited last time
          * - time complexity O(1)
@@ -100,7 +132,7 @@ namespace MyStl
          * no existing connection of `this` with `node`
          * - `true` otherwise
          */
-        bool disconnectLastVisit(Graph &graph);
+        bool disconnectLastVisit(Graph &graph) noexcept;
         /**
          * - average time complexity O(1)
          * - worst time complexity O(`this->neighbourCount`)
@@ -115,7 +147,7 @@ namespace MyStl
          * - it never returns the neighbour which visited `this` last time
          * - it doesn't mark it to be visited
          */
-        Neighbour move(Graph &graph);
+        Neighbour move(Graph &graph) noexcept;
         /**
          * - time complexity at worst case O(`this->neighbourCount`)
          * however, even if you call the function number of times before
@@ -129,36 +161,36 @@ namespace MyStl
          * - it never returns the neighbour which visited `this` last time
          * - it doesn't mark it to be visited
          */
-        Neighbour moveUnvisited(Graph &graph);
+        Neighbour moveUnvisited(Graph &graph) noexcept;
         /**
          * - time complexity O(1)
          * @return
          * - `Node::UNDEFINED_NODE` if `this` is unvisited `node`
          * - `NodeId` of last visitor of `this` otherwise
          */
-        inline NodeId lastVisitorId() const;
+        inline NodeId lastVisitorId() const noexcept;
         /**
          * - time complexity O(1)
          * @return
          * - `Neighbour` which visited `this` last time
          * - `Neighbour{nodeId = UNDEFINED_NODE, weight = 0}` if `this` is unvisited
          */
-        inline Neighbour lastVisitor(const Graph &graph) const;
+        inline Neighbour lastVisitor(const Graph &graph) const noexcept;
         /**
          * - time complexity O(1)
          */
-        inline void markVisited(NodeId visitorNodeId);
+        inline void markVisited(NodeId visitorNodeId) noexcept;
         /**
          * - time complexity O(1)
          */
-        inline bool isVisited() const;
+        inline bool isVisited() const noexcept;
         /**
          * - time complexity O(1)
          * @return
          * - `Neighbour` which `this` visited last time
          * - `Neighbour{nodeId = UNDEFINED_NODE, weight = 0}` if `this` never visited any node
          */
-        inline Neighbour lastVisited() const;
+        inline Neighbour lastVisited() const noexcept;
         /**
          * - time complexity O(`this->neighbourCount`)
          * @return
@@ -166,17 +198,17 @@ namespace MyStl
          * EXCEPT FOR THE NEIGHBOUR NODE WHICH VISITED `this` LAST TIME
          * - `Neighbour{nodeId = UNDEFINED_NODE, weight = 0}` (whose `nodeId` is `false` if treated as boolean) if no such node found
          */
-        inline Neighbour hasVisitedNeighbour(const Graph &graph) const;
+        inline Neighbour hasVisitedNeighbour(const Graph &graph) const noexcept;
         /**
          * - time complexity O(1)
          */
-        inline uint32_t neighbourCount() const;
+        inline uint32_t neighbourCount() const noexcept;
         /**
          * - time complexity O(1)
          * @note
          * higher the index of a neighbour lower the priorty
          */
-        inline const std::vector<Neighbour> &get_neighbours() const;
+        inline const std::vector<Neighbour> &get_neighbours() const noexcept;
         /**
          * - time complexity O(priorty it has already)
          * @return
@@ -188,31 +220,35 @@ namespace MyStl
         uint32_t get_priorty(Node::NodeId Neighbour) const;
         /**
          * - time complexity O(priorty it has already)
+         * @exception
+         * - if there is no neighbour of given NodeId
          */
         inline void priortiseNeighbourHighest(Node::NodeId neighbour);
         /**
          * - time complexity O(priorty it has already)
+         * @exception
+         * - if there is no neighbour of given NodeId
          */
         inline void priortiseNeighbourLowest(Node::NodeId neighbour);
         /**
          * - time complexity O(`this->neighbourCount` * log(`this->neighbourCount`))
          */
-        inline void priortiseNeighbourByHeighWeight();
+        inline void priortiseNeighbourByHeighWeight() noexcept;
         /**
          * - time complexity O(`this->neighbourCount` * log(`this->neighbourCount`))
          */
-        inline void priortiseNeighbourByLowWeight();
+        inline void priortiseNeighbourByLowWeight() noexcept;
         /**
          * - time complexity O(`this->neighbourCount` * log(`this->neighbourCount`))
          */
-        inline void priortiseNeighbourByHeighNodeId();
+        inline void priortiseNeighbourByHeighNodeId() noexcept;
         /**
          * - time complexity O(`this->neighbourCount` * log(`this->neighbourCount`))
          */
-        inline void priortiseNeighbourByLowNodeId();
+        inline void priortiseNeighbourByLowNodeId() noexcept;
 
     protected:
-        inline void reset();
+        inline void reset() noexcept;
         NodeId nodeId;
         std::vector<Neighbour> neighbours;
         NodeId visitorNodeId = UNDEFINED_NODE;
@@ -222,31 +258,41 @@ namespace MyStl
     class Graph
     {
     public:
-        Graph(uint32_t nodeCount);
+        Graph(uint32_t nodeCount) noexcept;
+        /**
+         * @warning
+         * trying to excess index < 1 or index >= `this->nodeCount` will
+         * lead to exception from std::vector or undefined behaviour
+         */
         Node &operator[](Node::NodeId nodeId);
+        /**
+         * @warning
+         * trying to excess index < 1 or index >= `this->nodeCount` will
+         * lead to exception from std::vector or undefined behaviour
+         */
         const Node &operator[](Node::NodeId nodeId) const;
         /**
          * - time complexity O(this->nodeCount)
          */
-        void reset();
+        void reset() noexcept;
         /**
          * - time complexity O(this->nodeCount * log(this->nodeCount))
          */
-        void priortiseNeighbourByHeighWeight();
+        void priortiseNeighbourByHeighWeight() noexcept;
         /**
          * - time complexity O(this->nodeCount * log(this->nodeCount))
          */
-        void priortiseNeighbourByLowWeight();
+        void priortiseNeighbourByLowWeight() noexcept;
         /**
          * - time complexity O(this->nodeCount * log(this->nodeCount))
          */
-        void priortiseNeighbourByHeighNodeId();
+        void priortiseNeighbourByHeighNodeId() noexcept;
         /**
          * - time complexity O(this->nodeCount * log(this->nodeCount))
          */
-        void priortiseNeighbourByLowNodeId();
-        void inputEdges(uint32_t numberOfEdges);
-        void inputDirectedEdges(uint32_t numberOfEdges);
+        void priortiseNeighbourByLowNodeId() noexcept;
+        void inputEdges(uint32_t numberOfEdges) noexcept;
+        void inputDirectedEdges(uint32_t numberOfEdges) noexcept;
         /**
          * - time complexity O(next unvisited NodeId - last returned NodeId)
          * - In long, even if you call the function number of times before
@@ -257,7 +303,7 @@ namespace MyStl
          * - `NodeId` of first unvisited node in the graph
          * - `UNDEFINED_NODE` if all nodes in the graph is visited already
          */
-        Node::NodeId unvisitedNode();
+        Node::NodeId unvisitedNode() noexcept;
 
     protected:
         std::vector<Node> graph;
