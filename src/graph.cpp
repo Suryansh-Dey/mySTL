@@ -147,11 +147,11 @@ uint32_t MyStl::Node::get_priorty(MyStl::Node::NodeId neighbour) const
 }
 void MyStl::Node::priortiseNeighbourHighest(MyStl::Node::NodeId neighbour)
 {
-    std::swap(this->neighbours[get_priorty(neighbour)], this->neighbours[this->neighbours.size() - 1]);
+    std::swap(this->neighbours[get_priorty(neighbour)], this->neighbours[0]);
 }
 void MyStl::Node::priortiseNeighbourLowest(MyStl::Node::NodeId neighbour)
 {
-    std::swap(this->neighbours[get_priorty(neighbour)], this->neighbours[0]);
+    std::swap(this->neighbours[get_priorty(neighbour)], this->neighbours[this->neighbours.size() - 1]);
 }
 void MyStl::Node::priortiseNeighbourByHeighWeight()
 {
