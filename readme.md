@@ -14,9 +14,10 @@ like any other library and thanks to `mystl.hpp.gch`, pre-compiled header, prese
 # mySTL.exe 
 This allows you to submit your code on an online platform, which takes a single main file, by copy pasting mySTL library just above your code
 ## For mac or linux 
-Fuck off mac or linux users, you are too fancy (delete the bin/mySTL.exe then complie the src/mySTL.cpp by running following command on terminal  
+Fuck off mac or linux users, you are too fancy (run following command on terminal  
 First cd to the mySTL folder then run
 ```
+rm bin/mySTL.exe
 g++ -std=c++17 src/mystl.cpp -o bin/mySTL
 ```
 and rest of everything will work the same on linux or mac device too)

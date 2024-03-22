@@ -14,11 +14,16 @@ namespace MyStl
     /**
      * @return
      * - `(line_number, column_number)` of first difference
-     * - `(0, 0)` if both files are same
+     * - `std::pair(0, 0)` if both files are same
+     * - `std::pair(min(lines_in_outputFile, lines_in_testFile), 0)` if
+     * they have different number of lines
      * @exception
      * if cannot open the given outputFilePath or testFilePath
+     * @note
+     * it ignores one trailing space of outputFile lines (if present) and one trailing blank line
+     * of outputFile (if present)
     */
-    std::pair<uint32_t, uint32_t> firstDifferenceFile(const char *outputFilePath, const char *testFilePath);
+    std::pair<uint32_t, uint32_t> fileFirstDifference(const char *outputFilePath, const char *testFilePath);
     /**
      * just write
      * FOR(number_of_times_to_loop)

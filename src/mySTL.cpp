@@ -28,8 +28,9 @@ std::string_view removeLeadingWhiteSpace(const std::string &str)
 }
 int main(int argc, char *argv[])
 {
+    std::vector<std::string> sourceContent;
+    std::string destinationPath, line;
     // processing arguments
-    std::string destinationPath;
     if (argc <= 1)
         throw std::runtime_error("Too few arguments");
     else if (argc == 2)
@@ -64,11 +65,16 @@ int main(int argc, char *argv[])
         throw std::runtime_error("Cannot find mySTL.hpp at expected path: " + basePath);
     if (not sourceFile.is_open())
         throw std::runtime_error("Cannot open source file of given path");
+    std::getline(sourceFile, line);
+    if (argv[1] == destinationPath)
+    {
+        while (std::getline(sourceFile, line))
+            sourceContent.emplace_back(line);
+    }
     std::ofstream destinationFile(destinationPath);
     if (not destinationFile.is_open())
         throw std::runtime_error("Cannot open destination file of given path");
     // copying header ignoring comments
-    std::string line;
     std::getline(header, line);
     bool multilineComment = false;
     while (std::getline(header, line) && line != "// MYSTL_END")
@@ -104,8 +110,15 @@ int main(int argc, char *argv[])
             destinationFile << line << '\n';
     }
     // copying source files
-    std::getline(sourceFile, line);
-    while (std::getline(sourceFile, line))
-        destinationFile << line << '\n';
+    if (argv[1] != destinationPath)
+    {
+        while (std::getline(sourceFile, line))
+            destinationFile << line << '\n';
+    }
+    else
+    {
+        for (std::string &line : sourceContent)
+            destinationFile << line << '\n';
+    }
     return 0;
 }
