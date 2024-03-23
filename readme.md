@@ -1,5 +1,5 @@
-# Aim
-To make the you best competitive programmer on earth!
+# mySTL
+A library for competitive programming to solve even graph problems in minutes!
 # Documentation
 Read `mySTL.hpp` for documentation of the library.  
 Yup I m that lzy
