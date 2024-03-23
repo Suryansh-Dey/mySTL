@@ -5,7 +5,11 @@ MyStl::Node::Node(NodeId nodeId) : nodeId(nodeId)
     if (nodeId == MyStl::Node::UNDEFINED_NODE)
         throw std::runtime_error("MyStl::Node::Node() failed.\nNode id should be a natural number\n");
 }
-void MyStl::Node::point(const Node &node, Neighbour::Weight weight) noexcept
+MyStl::Node::NodeId MyStl::Node::get_nodeId() const noexcept
+{
+    return this->nodeId;
+}
+void MyStl::Node::point(const Node &node, Neighbour::Weight weight)
 {
     this->neighbours.emplace_back(Neighbour{node.nodeId, weight});
 }
@@ -28,7 +32,7 @@ bool MyStl::Node::unpointLastVisit(Graph &graph) noexcept
     this->neighbours[this->neighbourIndexToVisit - 1].nodeId = MyStl::Node::UNDEFINED_NODE;
     return true;
 }
-void MyStl::Node::connect(Node &node, Neighbour::Weight weight) noexcept
+void MyStl::Node::connect(Node &node, Neighbour::Weight weight)
 {
     this->neighbours.emplace_back(Neighbour{node.nodeId, weight});
     node.neighbours.emplace_back(Neighbour{this->nodeId, weight});
@@ -174,11 +178,23 @@ void MyStl::Node::priortiseNeighbourByLowNodeId() noexcept
               { return neighbour1.nodeId < neighbour2.nodeId; });
 }
 
-MyStl::Graph::Graph(uint32_t nodeCount) noexcept
+MyStl::Graph::Graph(uint32_t nodeCount)
 {
     this->graph.emplace_back(MyStl::Node(nodeCount));
+    this->add(nodeCount);
+}
+void MyStl::Graph::add(uint32_t nodeCount)
+{
     for (uint32_t nodeNo = 1; nodeNo <= nodeCount; nodeNo++)
         this->graph.emplace_back(MyStl::Node(nodeNo));
+}
+void MyStl::Graph::pop_back() noexcept
+{
+    this->graph.pop_back();
+}
+uint32_t MyStl::Graph::nodeCount() const noexcept
+{
+    return this->graph.size() - 1;
 }
 void MyStl::Graph::reset() noexcept
 {

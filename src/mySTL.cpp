@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     if (not sourceFile.is_open())
         throw std::runtime_error("Cannot open source file of given path");
     std::getline(sourceFile, line);
-    if (argv[1] == destinationPath)
+    if (std::filesystem::equivalent(argv[1], destinationPath))
     {
         while (std::getline(sourceFile, line))
             sourceContent.emplace_back(line);
@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
             destinationFile << line << '\n';
     }
     // copying source files
-    if (argv[1] != destinationPath)
+    if (not std::filesystem::equivalent(argv[1], destinationPath))
     {
         while (std::getline(sourceFile, line))
             destinationFile << line << '\n';

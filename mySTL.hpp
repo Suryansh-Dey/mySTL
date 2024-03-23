@@ -22,12 +22,11 @@ namespace MyStl
      * @note
      * it ignores one trailing space of outputFile lines (if present) and one trailing blank line
      * of outputFile (if present)
-    */
+     */
     std::pair<uint32_t, uint32_t> fileFirstDifference(const char *outputFilePath, const char *testFilePath);
     /**
-     * just write
-     * FOR(number_of_times_to_loop)
-     * {
+     * syntax:
+     * FOR(number_of_times_to_loop){
      *      cout << "Note: i is accessible here: " << i << '\n';
      * }
      * @note
@@ -90,12 +89,16 @@ namespace MyStl
         static constexpr uint32_t UNDEFINED_NODE = 0;
         Node(NodeId nodeId);
         /**
+         * - time complexity O(1)
+         */
+        NodeId get_nodeId() const noexcept;
+        /**
          * - creates an directed edge
          * - time complexity O(1)
          * @warning
          * connecting with Node of NodeId = 0 will lead to undefined behaviour
          */
-        void point(const Node &node, Neighbour::Weight weight) noexcept;
+        void point(const Node &node, Neighbour::Weight weight);
         /**
          * Disconnects `this` from `node`
          * - time complexity O(`this->neighbourCount`)
@@ -119,7 +122,7 @@ namespace MyStl
          * @warning
          * connecting with Node of NodeId = 0 will lead to undefined behaviour
          */
-        void connect(Node &node, Neighbour::Weight weight) noexcept;
+        void connect(Node &node, Neighbour::Weight weight);
         /**
          * Disconnects `this` from `node`
          * - time complexity O(`this->neighbourCount`)
@@ -263,7 +266,11 @@ namespace MyStl
     class Graph
     {
     public:
-        Graph(uint32_t nodeCount) noexcept;
+        Graph(uint32_t nodeCount);
+        /**
+         * - time complexity O(1)
+         */
+        uint32_t nodeCount() const noexcept;
         /**
          * @warning
          * trying to excess index < 1 or index >= `this->nodeCount` will
@@ -277,23 +284,25 @@ namespace MyStl
          */
         const Node &operator[](Node::NodeId nodeId) const;
         /**
-         * - time complexity O(this->nodeCount)
+         * - resets the whole graph to just initialised state but don't disconnect or connect
+         * any pair of nodes
+         * - time complexity O(`this->nodeCount`)
          */
         void reset() noexcept;
         /**
-         * - time complexity O(this->nodeCount * log(this->nodeCount))
+         * - time complexity O(`this->nodeCount` * log(`this->nodeCount`))
          */
         void priortiseNeighbourByHeighWeight() noexcept;
         /**
-         * - time complexity O(this->nodeCount * log(this->nodeCount))
+         * - time complexity O(`this->nodeCount` * log(`this->nodeCount`))
          */
         void priortiseNeighbourByLowWeight() noexcept;
         /**
-         * - time complexity O(this->nodeCount * log(this->nodeCount))
+         * - time complexity O(`this->nodeCount` * log(`this->nodeCount`))
          */
         void priortiseNeighbourByHeighNodeId() noexcept;
         /**
-         * - time complexity O(this->nodeCount * log(this->nodeCount))
+         * - time complexity O(`this->nodeCount` * log(`this->nodeCount`))
          */
         void priortiseNeighbourByLowNodeId() noexcept;
         void inputEdges(uint32_t numberOfEdges) noexcept;
@@ -309,6 +318,16 @@ namespace MyStl
          * - `UNDEFINED_NODE` if all nodes in the graph is visited already
          */
         Node::NodeId unvisitedNode() noexcept;
+        /**
+         * - adds `nodeCount` number of nodes
+         * - time complexity O(nodeCount)
+         */
+        void add(uint32_t nodeCount = 1);
+        /**
+         * - removes last node
+         * - time complexity O(1)
+         */
+        void pop_back() noexcept;
 
     protected:
         std::vector<Node> graph;

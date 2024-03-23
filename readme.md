@@ -1,5 +1,5 @@
 # mySTL
-A library for competitive programming to solve even graph problems in minutes!
+A library to make you best competitive programmer on earth!
 # Documentation
 Read `mySTL.hpp` for documentation of the library.  
 Yup I m that lzy
