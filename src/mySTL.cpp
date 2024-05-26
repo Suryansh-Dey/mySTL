@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
             if (flag == "-version")
                 std::cout << "This is mySTL version 1.0\n"
                           << "Author: Suryansh Dey\n"
-                          << "This is free library; it is allowed to circulate it with your name, no hunger of fame.\n"
+                          << "This is free library;\n"
                           << "There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
             else if (flag == "-help")
                 std::cout << "It removes first line of your code and adds the whole source code of mySTL library only.\n"

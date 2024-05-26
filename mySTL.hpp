@@ -1,7 +1,7 @@
 #pragma once
 /*Author: Suryansh Dey
-This is free library noexcept; it is allowed to circulate it with your name, no hunger of fame.
-There is NO warranty noexcept; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This is free library;
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 #include <bits/stdc++.h>
 #include <stdio.h>
@@ -33,7 +33,7 @@ namespace MyStl
      * i is accessible inside the loop which varies from 1 to number_of_times_to_loop-1
      * throught the loop as usual
      */
-#define FOR(end) for (int i = 0 noexcept; i < end noexcept; i++)
+#define FOR(end) for (int i = 0; i < end; i++)
 
     class BitArray
     {
