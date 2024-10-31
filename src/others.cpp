@@ -5,12 +5,14 @@ void MyStl::print1D(type array1D) noexcept
 {
     for (auto element : array1D)
         std::cout << element << ' ';
+    std::cout << '\n';
 }
 template <typename type>
 void MyStl::print1D(type array1D, size_t size) noexcept
 {
     for (size_t i = 0; i < size; i++)
         std::cout << array1D[i] << ' ';
+    std::cout << '\n';
 }
 std::pair<uint32_t, uint32_t> MyStl::fileFirstDifference(const char *outputFilePath, const char *testFilePath)
 {
