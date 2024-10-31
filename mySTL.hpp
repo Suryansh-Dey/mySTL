@@ -1,10 +1,9 @@
-#pragma once
 /*Author: Suryansh Dey
 This is free library;
 There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+#pragma once
 #include <bits/stdc++.h>
-#include <stdio.h>
 namespace MyStl
 {
     template <typename type>
